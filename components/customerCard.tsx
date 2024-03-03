@@ -1,24 +1,28 @@
 import { View, Text, Pressable } from "react-native";
-import React from "react";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useActiveCustomer } from "@/contexts/active";
+import { genAvatar } from "@/constants/hooks";
+import SvgComponent from "./svg";
 
 const CustomerCard = ({
   name,
   id,
   mobile,
+  amount,
 }: {
   name: string;
   id: string;
   mobile: string;
+  amount: number;
 }) => {
   const { setActiveCustomer } = useActiveCustomer();
+
   return (
     <Pressable
       onPress={() => {
         setActiveCustomer(id);
-        router.push("/customerDetails");
+        router.replace("/customerDetails");
       }}
       style={{
         display: "flex",
@@ -29,6 +33,7 @@ const CustomerCard = ({
         borderRadius: 8,
         marginTop: 8,
         backgroundColor: "white",
+        elevation: 2
       }}
     >
       <View
@@ -39,25 +44,15 @@ const CustomerCard = ({
           alignItems: "center",
         }}
       >
-        <View
-          style={{
-            padding: 8,
-            borderRadius: 99,
-            marginRight: 28,
-            backgroundColor: "blue",
-          }}
-        >
-          <Text style={{ fontWeight: "500", color: "white", fontSize: 18 }}>
-            {name.slice(0, 2).toLocaleUpperCase()}
-          </Text>
-          {/* <Ionicons name="person" size={24} color="black" /> */}
+        <View style={{ width: 48, height: 48, marginRight: 10, padding: 2 }}>
+          <SvgComponent svgString={genAvatar()} />
         </View>
-        <View>
+        <View style={{ display: 'flex' }}>
           <Text style={{ fontWeight: "500", fontSize: 16 }}>{name}</Text>
-          <Text>{mobile}</Text>
+          <Text style={{ color: amount < 0 ? 'red' : 'green' }}>You {amount < 0 ? 'get' : 'pay'} : {Math.abs(amount)}</Text>
         </View>
       </View>
-      <AntDesign name="right" size={24} color="black" />
+      <AntDesign name="right" size={18} color="white" style={{ backgroundColor: "blue", borderRadius: 99, padding: 5 }} />
     </Pressable>
   );
 };

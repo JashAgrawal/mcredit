@@ -33,7 +33,7 @@ const AddAmountComp = () => {
   const addAmountLocal = () => {
     const f = isCredit ? amount : 0 - amount;
     addAmount(activeCustomer, f, note, moment(date).format("DD-MM-YYYY"));
-    router.push("/customerDetails");
+    router.replace("/customerDetails");
   };
   return (
     <>
@@ -68,6 +68,7 @@ const AddAmountComp = () => {
             <FontAwesome name="rupee" size={45} color={color} />
             {/* <FontAwesome name="money" size={40} color={color} /> */}
             <TextInput
+              autoFocus
               value={amount}
               onChangeText={(text) => setAmount(parseInt(text))}
               placeholder="Enter amount here"
@@ -165,6 +166,7 @@ const AddAmountComp = () => {
         </View>
         <View style={{ width: "100%" }}>
           <Pressable
+            disabled={amount === "" || amount <= 0}
             onPress={() => addAmountLocal()}
             style={{
               display: "flex",

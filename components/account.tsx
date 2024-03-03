@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack, router } from "expo-router";
 import { amount } from "@/constants/data";
 import {
@@ -7,6 +7,7 @@ import {
   Feather,
   FontAwesome,
   FontAwesome5,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import StylesButton from "./button";
 import { useKhata } from "@/contexts/data";
@@ -65,9 +66,10 @@ const Entry = ({
         <Text style={{ fontSize: 13, color: "white" }}>
           Amount {isCredit ? "Received" : "Gave"} on {date}
         </Text>
-        <Text style={{ fontSize: 24, fontWeight: "600", color: "white" }}>
-          {Math.abs(amount)}
-        </Text>
+        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginVertical: 6 }}>
+          <MaterialIcons name="currency-rupee" size={22} color="white" />
+          <Text style={{ fontSize: 24, fontWeight: "700", color: "white", paddingHorizontal: 2 }}>{Math.abs(amount)}</Text>
+        </View>
         <Text style={{ color: "white", fontSize: 17 }}>{note}</Text>
       </View>
     </View>
@@ -80,7 +82,7 @@ const Account = () => {
     (accumulator: number, current: any) => accumulator + current.amount,
     0
   );
-  const isMore = totalAmount >= 0;
+  const isMore = totalAmount > 0;
   const headingMessage = "You have to " + (isMore ? "Collect" : "Pay");
   const color = isMore ? "green" : "red";
   return (
@@ -140,10 +142,11 @@ const Account = () => {
           />
         </View>
         <View style={{ flex: 1, paddingHorizontal: 24 }}>
-          <Text style={{ fontSize: 18, fontWeight: "500" }}>Entries</Text>
+          <Text style={{ fontSize: 18, fontWeight: "800" }}>Entries</Text>
           <ScrollView>
-            {khata[activeCustomer].map((transaction: any) => (
+            {khata[activeCustomer].map((transaction: any, i: number) => (
               <Entry
+                key={i}
                 amount={transaction.amount}
                 note={transaction.note}
                 date={transaction.date}

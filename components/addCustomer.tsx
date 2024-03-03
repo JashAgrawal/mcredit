@@ -39,7 +39,7 @@ const AddCustomerComp = () => {
   const { addCustomer } = useCustomer();
   const handleClick = () => {
     addCustomer(name, mobile);
-    router.push("/");
+    router.replace("/");
   };
   return (
     <>

@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, ScrollView } from "react-native";
 import React from "react";
 import CustomerCard from "./customerCard";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,6 +15,7 @@ const CustomerList = () => {
         borderColor: "dimgray",
         paddingTop: 16,
         display: "flex",
+        paddingVertical: 4,
         paddingHorizontal: 16,
       }}
     >
@@ -47,13 +48,17 @@ const CustomerList = () => {
           </View>
         </Pressable>
       </View>
-      {customer.map((customer: any) => (
-        <CustomerCard
-          name={customer.name}
-          id={customer.id}
-          mobile={customer.number}
-        />
-      ))}
+        <ScrollView style={{ display: "flex",height: 360, marginVertical: 4 }}>
+          {customer.map((customer: any, i: number) => (
+            <CustomerCard
+              key={i}
+              name={customer.name}
+              id={customer.id}
+              mobile={customer.number}
+              amount={10}
+            />
+          ))}
+        </ScrollView>
     </View>
   );
 };
