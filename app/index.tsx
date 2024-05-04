@@ -2,10 +2,8 @@ import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-expo'
 import React from 'react'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import Dashboard from './dashboard'
-import SignInWithOAuth from '@/components/SignInWithOAuth'
 import * as SecureStore from "expo-secure-store";
-import SignInScreen from '@/components/SignInScreen'
-import SignUpScreen from '@/components/SignUpScreen'
+import AuthFlow from '@/components/AuthFlow'
 
 const Index = () => {
 
@@ -33,7 +31,7 @@ const Index = () => {
       </SignedIn>
       <SignedOut>
         <SafeAreaView style={styles.container}>
-<SignInWithOAuth/>
+          <AuthFlow />
         </SafeAreaView>
       </SignedOut>
     </ClerkProvider>
