@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useEffect } from "react";
 import { Stack, router } from "expo-router";
 import { amount } from "@/constants/data";
@@ -9,32 +9,12 @@ import {
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 import StylesButton from "./button";
 import { useKhata } from "@/contexts/data";
 import { useActiveCustomer } from "@/contexts/active";
-const OptionButton = ({ icon, text }: { icon: any; text: string }) => (
-  <View
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      margin: 10,
-    }}
-  >
-    <View
-      style={{
-        borderRadius: 99,
-        padding: 12,
-        borderWidth: 1,
-        borderColor: "blue",
-        marginBottom: 4,
-      }}
-    >
-      {icon()}
-    </View>
-    <Text style={{ fontWeight: "500" }}>{text}</Text>
-  </View>
-);
+import * as SMS from 'expo-sms';
+
 const Entry = ({
   amount,
   date,
@@ -83,25 +63,48 @@ const Account = () => {
     0
   );
   const isMore = totalAmount > 0;
-  const headingMessage = "You have to " + (isMore ? "Collect" : "Pay");
+  const headingMessage = "You " + (isMore ? "Collect" : "Pay");
   const color = isMore ? "green" : "red";
+
+  const sendSMS = async () => {
+    const isAvailable = await SMS.isAvailableAsync();
+    if (isAvailable) {
+      const result = await SMS.sendSMSAsync(["", ""], "hi there");
+      console.log('SMS sending result:', result);
+    } else {
+      console.log('SMS sending is not available on this device.');
+    }
+  };
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={{ flex: 1, paddingBottom: 20 }}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
-            height: 220,
+            flex:0.3,
+            // height: 200,
             backgroundColor: "blue",
             borderRadius: 20,
-            display: "flex",
+            // display: "flex",
             paddingHorizontal: 30,
-            paddingTop: 90,
+            paddingTop: 50,
           }}
         >
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: "space-between", paddingVertical: 8 }}>
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <Ionicons name="arrow-back" size={20} color="black" style={{ display: 'flex', padding: 8, backgroundColor: "white", borderRadius: 18, alignItems: 'center', justifyContent: 'center', height: 36, width: 36, marginRight: 8 }} onPress={() => router.replace('/')} />
+              <Text style={{ fontSize: 20, color: 'white', paddingVertical: 8 }}>Alpha</Text>
+            </View>
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <Feather name="phone-call" size={24} color="white" onPress={() => { }} />
+              <Feather name="message-square" size={24} color="white" style={{ marginHorizontal: 12 }} onPress={() => sendSMS()} />
+              <Feather name="share" size={24} color="white" onPress={() => { }} />
+            </View>
+          </View>
           <View
             style={{
-              display: "flex",
+              display: 'flex',
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -114,35 +117,13 @@ const Account = () => {
               {headingMessage}
             </Text>
             <Text style={{ fontSize: 22, fontWeight: "500", color: color }}>
-              <FontAwesome name="rupee" size={16} color={color} />{" "}
+              <FontAwesome name="rupee" size={20} color={color} />{" "}
               {Math.abs(totalAmount)}
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-          }}
-        >
-          <OptionButton
-            text="PDF"
-            icon={() => <AntDesign name="pdffile1" size={24} color="black" />}
-          />
-
-          <OptionButton
-            text="Call"
-            icon={() => <Feather name="phone-call" size={24} color="black" />}
-          />
-          <OptionButton
-            text="SMS"
-            icon={() => <AntDesign name="message1" size={24} color="black" />}
-          />
-        </View>
         <View style={{ flex: 1, paddingHorizontal: 24 }}>
-          <Text style={{ fontSize: 18, fontWeight: "800" }}>Entries</Text>
+          {/* <Text style={{ fontSize: 18, fontWeight: "800", paddingVertical: 8 }}>Entries</Text> */}
           <ScrollView>
             {khata[activeCustomer].map((transaction: any, i: number) => (
               <Entry
@@ -156,7 +137,7 @@ const Account = () => {
         </View>
         <View
           style={{
-            display: "flex",
+            flex: 0.2,
             flexDirection: "row",
             justifyContent: "space-evenly",
             alignItems: "center",

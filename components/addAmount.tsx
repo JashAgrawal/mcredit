@@ -37,7 +37,7 @@ const AddAmountComp = () => {
   };
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: "Add Transaction" }} />
+      <Stack.Screen options={{ title: "Add Transaction" }} />
       <View
         style={{
           flex: 1,
@@ -71,7 +71,7 @@ const AddAmountComp = () => {
               autoFocus
               value={amount}
               onChangeText={(text) => setAmount(parseInt(text))}
-              placeholder="Enter amount here"
+              placeholder="Amount"
               keyboardType="numeric"
               style={{
                 width: 180,
@@ -79,7 +79,7 @@ const AddAmountComp = () => {
                 borderBottomWidth: 1,
                 marginLeft: 20,
                 paddingHorizontal: 10,
-                fontSize: 19,
+                fontSize: 32,
               }}
             />
           </View>

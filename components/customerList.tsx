@@ -10,12 +10,7 @@ const CustomerList = () => {
   return (
     <View
       style={{
-        marginTop: 120,
-        marginVertical: 16,
-        borderColor: "dimgray",
-        paddingTop: 16,
         display: "flex",
-        paddingVertical: 4,
         paddingHorizontal: 16,
       }}
     >
@@ -48,7 +43,7 @@ const CustomerList = () => {
           </View>
         </Pressable>
       </View>
-        <ScrollView style={{ display: "flex",height: 360, marginVertical: 4 }}>
+        <ScrollView style={{ display: "flex",height: 500, marginVertical: 4 }}>
           {customer.map((customer: any, i: number) => (
             <CustomerCard
               key={i}
